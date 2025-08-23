@@ -5,15 +5,15 @@
 Menu DefaultRootMenu
 {
 	"Start"		        f.title
-	"Xfce term"		f.exec "xfce4-terminal &"
-        "Thunar"		f.exec "thunar &"\
-	"Wifi"			f.exec "xfce4-terminal -e nmtui &"
+	"Xterm"			f.exec "uxterm -fa PxPlusToshibaSat9x16 -fs 14 -tn xterm-256color &"
+        "Thunar"		f.exec "thunar &"
+	"Wifi"			f.exec "uxterm -e nmtui &"
 	"GTK set"		f.exec "nwg-look &"
         "Firefox"		f.exec "firefox &"
 	"Volume"		f.exec "pavucontrol &"
 	"App Finder"		f.exec "xfce4-appfinder &"
 	"Riavvia Emwm"	        f.restart
-	"Esci"               	f.exec "pkill -u vito &"
+	"Esci"               	f.exec "killall emwm &"
 	"Spegni"		f.exec "poweroff"
 }
 
