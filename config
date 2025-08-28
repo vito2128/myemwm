@@ -1,0 +1,266 @@
+# == FVWM 2 'VUE-like' config ==
+# (L) Carl Svensson, https://datagubbe.se/fvwm
+
+# == Set ImagePath ==
+ImagePath $HOME/.fvwm/icons:+
+
+# == Geometry Window ==
+# Change default font.
+# Used for geometry window and overriden everywhere else
+DefaultFont "-*-helvetica-bold-r-*-*-18-*-*-*-*-*-iso10646-1"
+# Hide for move action
+HideGeometryWindow Move
+
+# == Set cursors ==
+# Classic root cursor
+CursorStyle "ROOT" "X_cursor"
+
+# == Pager but with a bit of resistance ==
+DeskTopSize 2 2
+EdgeResistance 50 50
+EdgeScroll 0 0
+*FvwmPagerBack skyblue4
+*FvwmPagerFore black
+*FvwmPagerHilight slategray
+*FvwmPagerFont none
+*FvwmPagerFont none
+*FvwmPagerGeometry 123x93+0+570
+*FvwmPagerLabel FvwmPager
+*FvwmPager: WindowLabelFormat ""
+*FvwmPager: SolidSeparators
+
+# == Set up icon manager ==
+*FvwmIconMan: font "-*-helvetica-bold-r-*-*-18-*-*-*-*-*-iso10646-1"
+*FvwmIconMan: managergeometry 1x0+0+684
+*FvwmIconMan: buttongeometry 119x0
+*FvwmIconMan: format "%t"
+*FvwmIconMan: focusbutton down black gray
+*FvwmIconMan: plainbutton up black gray
+*FvwmIconMan: iconbutton up black gray
+*FvwmIconMan: selectbutton down black gray
+*FvwmIconMan: iconandselectbutton down black gray
+*FvwmIconMan: focusandselectbutton down black gray
+*FvwmIconMan: action mouse 1 n sendcommand Raise-and-Focus
+*FvwmIconMan: sort id
+*FvwmIconMan: resolution global
+*FvwmIconMan: drawicons true
+
+# == Icon handling ==
+# Turn off icons
+Style * NoIcon
+# Override mini icons for FvwmIconMan
+Style * MiniIcon "iconized.png"
+Style * EWMHMiniIconOverride
+
+# == Window colors and styles ==
+# Menu colors are set in menu style below.
+
+# Active Windows
+ColorSet 16 fg White, bg "#9f958f"
+Style * HilightColorSet 16
+
+# Inactive Windows
+Colorset 17 fg Black, bg "#bebebe"
+Style * Colorset 17
+
+# Window Font
+WindowFont "-*-helvetica-*-*-*-*-18-*-*-*-*-*-iso10646-1"
+
+# Decorate transient windows. A must for GTK apps' sub-windows.
+Style * DecorateTransient
+
+# Focus follows mouse
+Style "*" SloppyFocus
+
+# Title to the left
+TitleStyle LeftJustified
+
+# Decors and overrides
+#AddToDecor FlatBorder
+#  + BorderStyle Simple -- HiddenHandles NoInset Flat
+Style *             Title, Handles, !MWMFunctions, NoDecorHint
+Style *             DepressableBorder, HandleWidth 6, BorderWidth 6
+Style "FvwmIconMan" NoTitle, Sticky, WindowListSkip, NoHandles
+Style "FvwmPager"   NoTitle, Sticky, WindowListSkip, NoHandles
+Style "xload"       NoTitle, Sticky, WindowListSkip, NoHandles
+Style "xclock"      NoTitle, Sticky, WindowListSkip, NoHandles
+Style Cell          NoTitle, NoHandles, BorderWidth 0, FPLenient
+Style "VIC-II"      NoTitle, NoHandles, BorderWidth 0, FPLenient
+Style "gnome-mpv"   NoTitle, NoHandles, BorderWidth 0, FPLenient
+Style "Audacious"   NoTitle, NoHandles, BorderWidth 0, FPLenient
+Style "xmessage"    NoTitle, NoHandles, BorderWidth 0, FPLenient, WindowListSkip
+Style feh           NoTitle
+
+# == Menu styles ==
+
+# Colorset for menu titles
+ColorSet 18 fg White, bg "#686B9F"
+
+# Fast popups, filled submenu triangles, TWM-style titles
+MenuStyle * PopupImmediately, PopdownImmediately, PopupOffset 0 100
+MenuStyle * VerticalItemSpacing 1 1, VerticalTitleSpacing 1 1
+MenuStyle * HilightBack SteelBlue, ActiveFore White,
+MenuStyle * Hilight3DOff, TrianglesUseFore, TrianglesSolid
+MenuStyle * TitleColorset 18, HilightTitleBack
+MenuStyle * BorderWidth 1, TitleUnderlines1
+MenuStyle * ItemFormat "  %l%>  "
+
+# Menu Font
+MenuStyle * Font "-*-helvetica-bold-r-*-*-18-*-*-*-*-*-iso10646-1"
+
+# == Various flags and styles ==
+
+# 250ms = Click
+ClickTime 250
+
+# Enable solid window moving for all window sizes
+OpaqueMoveSize -1
+
+# Emulate Motif Window Manager hints
+Emulate Mwm
+
+# Window Placement
+Style "*" DumbPlacement
+
+# == Mouse bindings ==
+# Bind actions to window buttons
+Mouse 0     1       A       Menu Window-Ops2 Close
+Mouse 0     2       A       Maximize 0 100
+Mouse 0     4       A       Iconify
+
+# Listeners for root window (the "desktop")
+Mouse 1     R       A       Menu RootMenu
+Mouse 3     R       A       Menu System-Menu Nop
+Mouse 2     R       A       WindowList
+
+# Iconify on border
+Mouse 2     FS      A       Iconify
+
+# Raise or lower any window when right clicked anywhere in the border
+Mouse 3     TSIF    A       RaiseLower
+
+# When clicking an icon, de-iconfy it and tile remaining icons
+Mouse 0     I       A       TileIcons
+
+# Handle clicks in window title bar
+Mouse 1     T       A       Maximize-or-Move
+Mouse 2     T       A       Iconify
+
+# Mouse 1 + Win key = Move window (Good for undecorated windows)
+Mouse 1     W       4       Move-or-Raise
+
+# == Init (startup) function ==
+AddToFunc "InitFunction" I Module FvwmPager
+AddToFunc "InitFunction" I Module FvwmIconMan
+AddToFunc "InitFunction" I Exec exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
+
+# == Restart function ==
+AddToFunc "RestartFunction" I Module FvwmPager
+AddToFunc "RestartFunction" I Module FvwmIconMan
+AddToFunc "InitFunction" I Exec exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
+
+
+# == Window Handling Functions ==
+
+# Move and raise a window
+AddToFunc Move-or-Raise     "I" Raise
++                           "M" Move
++                           "D" Maximize
+
+# Resize and raise a window
+AddToFunc Resize-or-Raise   "I" Raise
++                           "M" Resize
++                           "D" Lower
+
+# Maximize window on double-click in title bar.
+# On single click, focus and allow moving it.
+AddToFunc Maximize-or-Move
+ + D Maximize
+ + I Raise
+ + C Focus
+ + M Move
+
+# Raise and Focus
+AddToFunc Raise-and-Focus
+ + I Iconify Off
+ + I Raise
+ + I Focus
+
+# == Keyboard bindings ==
+
+# Paging: Windows key + arrows moves to the next desktop
+# in the desired direction
+Key Left        A       4       Scroll -100 0
+Key Right       A       4       Scroll +100 +0
+Key Up          A       4       Scroll +0 -100
+Key Down        A       4       Scroll +0 +100
+
+# Windows key + Ctrl + up/down for volume
+Key  Up   A  C4  Exec xvol up &
+Key Down  A  C4  Exec xvol down &
+
+
+# Win + F1 = Maximize active window
+Key F1   A   4    Maximize
+
+# Win + F2 = Maximize window height
+Key F2   A   4    Maximize 0 100
+
+# Move active window with Windows key + Alt + Arrows
+Key Left    A   14  Move    w-2 w+0
+Key Right   A   14  Move    w+2 w+0
+Key Up      A   14  Move    w+0 w-2
+Key Down    A   14  Move    w+0 w+2
+
+# Start file manager: Windows key + e
+Key e       A   4   Exec    pcmanfm &
+
+# Show root menu from anywhere: Windows key + Escape
+Key Escape  A   4   Menu    RootMenu
+
+# == Define Menus ==
+
+# Root Window System Menu
+AddToMenu System-Menu 
++  "System"        Title
++  "Ridimensiona"  Resize-or-Raise
++  "Muovi"         Move-or-Raise
++  ""              Nop
++  "uccidi"        Destroy
++  "Cancella"      Delete
++  ""              Nop
++  "Riavvia FVWM"  Restart fvwm2
++  "Esci da FVWM"  quit fvwm2
+
+
+
+# Menu for top left hand ("close") button on windows
+AddToMenu Window-Ops2 
++  "Muovi"       Move
++  "Ridimensiona"     Resize
++  ""           Nop
++  "Cancella"     Delete
++  "Chiudi"      Close
+
+
+# This is the left-click Root Menu, for launching applications.
+# It will open sub menus defined below.
+AddToMenu RootMenu
+AddToMenu "RootMenu"
++ "Start" Title
++ "App finder" Exec xfce4-appfinder
++ "File manager" Exec thunar
++ "Firefox" Exec firefox
++ "Wifi" Exec uxterm -fa PxPlusToshibaSat9x16 -fs 18 -bg black -fg white -e nmtui
++ "Xterm" Exec uxterm -fa PxPlusToshibaSat9x16 -fs 18 -bg black -fg white
++ "Volume" Exec pavucontrol
++ "GTK set" Exec nwg-look
++ "Sfondo" Exec nitrogen
+
+
+
+
+
+
+
+
