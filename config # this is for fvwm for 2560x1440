@@ -24,14 +24,14 @@ EdgeScroll 0 0
 *FvwmPagerHilight slategray
 *FvwmPagerFont none
 *FvwmPagerFont none
-*FvwmPagerGeometry 123x93+0+570
+*FvwmPagerGeometry 193x152+2355+7
 *FvwmPagerLabel FvwmPager
 *FvwmPager: WindowLabelFormat ""
 *FvwmPager: SolidSeparators
 
 # == Set up icon manager ==
 *FvwmIconMan: font "-*-helvetica-bold-r-*-*-18-*-*-*-*-*-iso10646-1"
-*FvwmIconMan: managergeometry 1x0+0+684
+*FvwmIconMan: managergeometry 1x0+2429+366
 *FvwmIconMan: buttongeometry 119x0
 *FvwmIconMan: format "%t"
 *FvwmIconMan: focusbutton down black gray
@@ -56,7 +56,7 @@ Style * EWMHMiniIconOverride
 # Menu colors are set in menu style below.
 
 # Active Windows
-ColorSet 16 fg White, bg "#9f958f"
+ColorSet 16 fg White, bg "#ab7a1e"
 Style * HilightColorSet 16
 
 # Inactive Windows
@@ -94,7 +94,7 @@ Style feh           NoTitle
 # == Menu styles ==
 
 # Colorset for menu titles
-ColorSet 18 fg White, bg "#686B9F"
+ColorSet 18 fg White, bg "#783c7a"
 
 # Fast popups, filled submenu triangles, TWM-style titles
 MenuStyle * PopupImmediately, PopdownImmediately, PopupOffset 0 100
@@ -152,12 +152,27 @@ Mouse 1     W       4       Move-or-Raise
 # == Init (startup) function ==
 AddToFunc "InitFunction" I Module FvwmPager
 AddToFunc "InitFunction" I Module FvwmIconMan
-AddToFunc "InitFunction" I Exec exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
+AddToFunc "InitFunction" I Exec exec /usr/bin/lxpolkit &
+AddToFunc "InitFunction" I Exec exec xrandr --output HDMI-1-0 --primary --mode 2560x1440 --output eDP-1 --off &
+AddToFunc "InitFunction" I Exec exec setxkbmap us &
+AddToFunc "InitFunction" I Exec exec xclock -geometry 164x164+2384+175 & 
+AddToFunc "InitFunction" I Exec exec nitrogen --restore & 
+ 
+ 
+ 
+
+
 
 # == Restart function ==
 AddToFunc "RestartFunction" I Module FvwmPager
 AddToFunc "RestartFunction" I Module FvwmIconMan
 AddToFunc "InitFunction" I Exec exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
+AddToFunc "InitFunction" I Exec exec xrandr --output HDMI-1-0 --primary --mode 2560x1440 --output eDP-1 --off &
+AddToFunc "InitFunction" I Exec exec setxkbmap us &
+
+
+
+
 
 
 # == Window Handling Functions ==
@@ -252,11 +267,10 @@ AddToMenu "RootMenu"
 + "File manager" Exec thunar
 + "Firefox" Exec firefox
 + "Wifi" Exec uxterm -fa PxPlusToshibaSat9x16 -fs 18 -bg black -fg white -e nmtui
-+ "Xterm" Exec uxterm -fa PxPlusToshibaSat9x16 -fs 18 -bg black -fg white
++ "Xterm" Exec uxterm -fa PxPlusToshibaSat9x16 -fs 18 -bg black -fg green
 + "Volume" Exec pavucontrol
 + "GTK set" Exec nwg-look
 + "Sfondo" Exec nitrogen
-
 
 
 
