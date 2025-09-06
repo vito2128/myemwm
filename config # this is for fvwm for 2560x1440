@@ -166,9 +166,8 @@ AddToFunc "InitFunction" I Exec exec nitrogen --restore &
 # == Restart function ==
 AddToFunc "RestartFunction" I Module FvwmPager
 AddToFunc "RestartFunction" I Module FvwmIconMan
-AddToFunc "InitFunction" I Exec exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
-AddToFunc "InitFunction" I Exec exec xrandr --output HDMI-1-0 --primary --mode 2560x1440 --output eDP-1 --off &
-AddToFunc "InitFunction" I Exec exec setxkbmap us &
+AddToFunc "RestartFunction" I Exec exec xrandr --output HDMI-1-0 --primary --mode 2560x1440 --output eDP-1 --off &
+AddToFunc "RestartFunction" I Exec exec setxkbmap us &
 
 
 
